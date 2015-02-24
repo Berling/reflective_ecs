@@ -14,9 +14,11 @@ solution "reflective_ecs"
     project "reflective_ecs"
         kind "ConsoleApp"
 
+        defines "GLM_FORCE_RADIANS"
+
         buildoptions "-std=c++1y"
 
-        files "src/reflective_ecs/**.cpp"
+        files "src/**.cpp"
 
         configuration {"gmake", "linux"}
             if _OPTIONS["cc"] == "clang" then
