@@ -1,8 +1,9 @@
 #include <ecs/entity_manager.hpp>
+#include <utils/logger.hpp>
 
-
-namespace gdw {
-    entity_manager::entity_manager(game& game) noexcept : game_(game) { }
+namespace ecs {
+    entity_manager::entity_manager(game& game) noexcept
+    : game_{game} {}
 
     entity& entity_manager::emplace(const glm::vec3& position, const glm::quat& rotation,
     const glm::vec3& scalation) {
@@ -16,20 +17,20 @@ namespace gdw {
         if (entity != entities_.end()) {
             deletions_.push(id);
         } else {
-            // TODO: warning
+            utils::log(utils::warning) << "entity " << id << " doesn't exist" << std::endl;
         }
     }
 
     void entity_manager::clear() {
         while (!deletions_.empty()) {
-            unsigned int kill = deletions_.front();
+            auto kill = deletions_.front();
             auto entity = entities_.find(kill);
             if (entity != entities_.end()) {
                 entities_.erase(entity);
-                deletions_.pop();
             } else {
-                // TODO: warning
+                utils::log(utils::warning) << "entity " << kill << " was already destroyed" << std::endl;
             }
+            deletions_.pop();
         }
     }
 

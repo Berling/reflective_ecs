@@ -1,5 +1,5 @@
-#ifndef __ZOMBYE_ENTITY_MANAGER_HPP__
-#define __ZOMBYE_ENTITY_MANAGER_HPP__
+#ifndef __GDW_ENTITY_MANAGER_HPP__
+#define __GDW_ENTITY_MANAGER_HPP__
 
 #include <memory>
 #include <queue>
@@ -7,11 +7,11 @@
 
 #include <ecs/entity.hpp>
 
-namespace gdw {
+namespace ecs {
     class game;
 }
 
-namespace gdw {
+namespace ecs {
     class entity_manager {
     public:
         entity_manager(game& game) noexcept;

@@ -1,12 +1,12 @@
 #ifndef __GDW_BASE_COMPONENT_HPP__
 #define __GDW_BASE_COMPONENT_HPP__
 
-namespace gdw {
+namespace ecs {
     class game;
     class entity;
 }
 
-namespace gdw {
+namespace ecs {
     class base_component {
     public:
         base_component(game& game, entity& owner) noexcept;
