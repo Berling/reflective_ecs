@@ -35,7 +35,7 @@ namespace ecs {
             utils::log(LOG_ERROR) << "expected " << properties.size() << " properties at " << name << " but got " << object.size() << std::endl;
             return nullptr;
         }
-        auto value_pack = ecs::value_pack(name);
+        auto value_pack = std::make_unique<ecs::value_pack>(name);
         for (auto& p : properties) {
             auto wrapped_value = object[p->name()];
             auto value = assign_value(p.get(), wrapped_value);
@@ -43,9 +43,9 @@ namespace ecs {
                 utils::log(LOG_ERROR) << "conversion from json value to type of property " << p->name() << " at " << name << " failed" << std::endl;
                 return nullptr;
             }
-            value_pack.emplace_back(std::move(value));
+            value_pack->emplace_back(std::move(value));
         }
-        return std::make_unique<ecs::value_pack>(std::move(value_pack));
+        return value_pack;
     }
 
     std::unique_ptr<abstract_value> assign_value(abstract_property* property, const Json::Value& wrapped_value) {

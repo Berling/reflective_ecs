@@ -7,6 +7,7 @@
 
 #include <ecs/typed_property.hpp>
 #include <ecs/typed_value.hpp>
+#include <utils/logger.hpp>
 
 namespace ecs {
     class value_pack {

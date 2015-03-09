@@ -3,11 +3,25 @@
 
 namespace ecs {
     entity_manager::entity_manager(core::game& game) noexcept
-    : game_{game} {}
+    : game_{game}, entity_template_manager_{game_} {}
 
     entity& entity_manager::emplace(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scalation) {
         auto entity_ptr = std::make_unique<entity>(game_, position, rotation, scalation);
         entities_.insert(std::make_pair(entity_ptr->id(), std::move(entity_ptr)));
+        return *entity_ptr;
+    }
+
+    entity& entity_manager::emplace(const std::string& name, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scalation) {
+        auto entity = std::make_unique<ecs::entity>(game_, position, rotation, scalation);
+        auto entity_ptr = entity.get();
+        entities_.insert(std::make_pair(entity->id(), std::move(entity)));
+        auto entity_template = entity_template_manager_.load(name, "entity/" + name + ".template");
+        if (!entity_template) {
+            utils::log(utils::LOG_FATAL) << "could not load entity template " << name << std::endl; 
+        }
+        for (auto& pack : entity_template->get()) {
+            entity_ptr->emplace(pack->name(), *pack);
+        }
         return *entity_ptr;
     }
 

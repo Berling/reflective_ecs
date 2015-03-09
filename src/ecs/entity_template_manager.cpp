@@ -8,7 +8,7 @@ using namespace utils;
 
 namespace ecs {
     entity_template_manager::entity_template_manager(core::game& game) noexcept
-    : game_{game} { }
+    : game_{game} {}
 
     std::shared_ptr<const entity_template> entity_template_manager::load_new(const std::string& name, const std::string& file) {
         auto asset = game_.asset_manager().load(file);

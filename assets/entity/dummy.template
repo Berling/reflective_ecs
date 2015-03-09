@@ -1,0 +1,7 @@
+{
+    "dummy": {
+        "test_component": {
+            "test_value": 10.0
+        }
+    }
+}

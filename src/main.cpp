@@ -34,12 +34,9 @@ private:
 
 int main(int argc, char const* argv[]) {
     core::game g;
+    entity_manager entity_manager{g};
     entity::register_type<test_component>();
-    utils::log(LOG_WARNING) << test_component::type_info().type_name() << std::endl;
-    utils::log(LOG_WARNING) << property_type<float>::type_id() << std::endl;
-    utils::log(LOG_WARNING) << property_type<int>::type_id() << std::endl;
-    utils::log(LOG_WARNING) << property_type<float>::type_id() << std::endl;
-    utils::log(LOG_WARNING) << property_type<glm::vec3>::type_id() << std::endl;
-    utils::log(LOG_WARNING) << property_type<entity>::type_id() << std::endl;
+    auto& e = entity_manager.emplace("dummy", glm::vec3{1.f}, glm::quat{});
+    utils::log << e.component<test_component>()->test_value() << std::endl;
     return 0;
 }

@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include <ecs/entity.hpp>
+#include <ecs/entity_template_manager.hpp>
 
 namespace core {
     class game;
@@ -24,6 +25,7 @@ namespace ecs {
         entity_manager& operator=(entity_manager&& rhs) = delete;
         
         entity& emplace(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale = glm::vec3{1.f});
+        entity& emplace(const std::string& name, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale = glm::vec3{1.f});
         void erase(unsigned long id);
         void clear();
         entity* resolve(unsigned long id);
@@ -32,6 +34,7 @@ namespace ecs {
         core::game& game_;
         std::unordered_map<unsigned long, std::unique_ptr<entity>> entities_;
         std::queue<unsigned long> deletions_;
+        entity_template_manager entity_template_manager_;
     };
 }
 

@@ -9,6 +9,7 @@
 
 #include <ecs/base_component.hpp>
 #include <ecs/rtti.hpp>
+#include <ecs/value_pack.hpp>
 #include <utils/logger.hpp>
 
 namespace core {
@@ -66,10 +67,10 @@ namespace ecs {
         template <typename component_type>
         component_type* component() noexcept {
             auto& type_info = component_type::type_info();
-            auto type_id = component_type::type_id();
+            auto type_id = type_info.type_id();
             auto it = components_.find(type_id);
             if (it != components_.end()) {
-                auto component = components_[type_id];
+                auto& component = components_[type_id];
                 return static_cast<component_type*>(component.get());
             }
             return nullptr;
@@ -125,6 +126,8 @@ namespace ecs {
         }
 
     private:
+        base_component& emplace(const std::string& name, const value_pack& value_pack);
+
         auto next_id() const noexcept {
             static auto id_geneartor = 0ul;
             return ++id_geneartor;
@@ -139,6 +142,8 @@ namespace ecs {
         glm::vec3 position_;
         glm::quat rotation_;
         glm::vec3 scale_;
+
+        friend class entity_manager;
     };
 }
 
