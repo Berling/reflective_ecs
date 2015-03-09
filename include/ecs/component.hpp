@@ -2,9 +2,9 @@
 #define __GDW_COMPONENT_HPP__
 
 #include <ecs/base_component.hpp>
-#include <ecs/demangle.hpp>
 #include <ecs/property.hpp>
 #include <ecs/rtti.hpp>
+#include <utils/demangle.hpp>
 
 namespace ecs {
     class entity;
@@ -29,7 +29,7 @@ namespace ecs {
         component& operator=(component&& rhs) = delete;
 
         static auto& type_info() noexcept {
-            static rtti type_info{demangle(typeid(component_type).name()), 
+            static rtti type_info{utils::demangle(typeid(component_type).name()), 
                 (rtti::factory)(component_type::create),
                 (rtti::reflection)(component_type::register_reflection)};
             return type_info;

@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include <ecs/component.hpp>
-#include <ecs/demangle.hpp>
 #include <ecs/entity.hpp>
 #include <ecs/entity_manager.hpp>
 #include <ecs/property_type.hpp>
@@ -34,9 +33,5 @@ private:
 
 int main(int argc, char const* argv[]) {
     core::game g;
-    entity_manager entity_manager{g};
-    entity::register_type<test_component>();
-    auto& e = entity_manager.emplace("dummy", glm::vec3{1.f}, glm::quat{});
-    utils::log << e.component<test_component>()->test_value() << std::endl;
     return 0;
 }
