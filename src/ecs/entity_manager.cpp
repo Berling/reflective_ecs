@@ -17,7 +17,7 @@ namespace ecs {
         if (entity != entities_.end()) {
             deletions_.push(id);
         } else {
-            utils::log(utils::warning) << "entity " << id << " doesn't exist" << std::endl;
+            utils::log(utils::LOG_WARNING) << "entity " << id << " doesn't exist" << std::endl;
         }
     }
 
@@ -28,7 +28,7 @@ namespace ecs {
             if (entity != entities_.end()) {
                 entities_.erase(entity);
             } else {
-                utils::log(utils::warning) << "entity " << kill << " was already destroyed" << std::endl;
+                utils::log(utils::LOG_WARNING) << "entity " << kill << " was already destroyed" << std::endl;
             }
             deletions_.pop();
         }

@@ -44,7 +44,7 @@ namespace ecs {
                 components_.insert(std::make_pair(type_id, std::move(component)));
                 return *component_ptr;
             } else {
-                utils::log(utils::warning) << "entity " << id_ << " already has component of type "
+                utils::log(utils::LOG_WARNING) << "entity " << id_ << " already has component of type "
                     << type_info->type_name() << std::endl;
                 return *static_cast<component_type*>(it->second.get());
             }
@@ -58,7 +58,7 @@ namespace ecs {
             if (it != components_.end()) {
                 components_.erase(it);
             } else {
-                utils::log(utils::warning) << "entity " << id_ << " has no component of type"
+                utils::log(utils::LOG_WARNING) << "entity " << id_ << " has no component of type"
                     << type_info->type_name() << std::endl;
             }
         }

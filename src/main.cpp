@@ -39,11 +39,11 @@ private:
 
 int main(int argc, char const* argv[]) {
     entity::register_type<test_component>();
-    utils::log(warning) << test_component::type_info().type_name() << std::endl;
-    utils::log << property_type<float>::type_id() << std::endl;
-    utils::log << property_type<int>::type_id() << std::endl;
-    utils::log << property_type<float>::type_id() << std::endl;
-    utils::log << property_type<glm::vec3>::type_id() << std::endl;
-    utils::log << property_type<entity>::type_id() << std::endl;
+    utils::log(LOG_WARNING) << test_component::type_info().type_name() << std::endl;
+    utils::log(LOG_WARNING) << property_type<float>::type_id() << std::endl;
+    utils::log(LOG_WARNING) << property_type<int>::type_id() << std::endl;
+    utils::log(LOG_WARNING) << property_type<float>::type_id() << std::endl;
+    utils::log(LOG_WARNING) << property_type<glm::vec3>::type_id() << std::endl;
+    utils::log(LOG_WARNING) << property_type<entity>::type_id() << std::endl;
     return 0;
 }

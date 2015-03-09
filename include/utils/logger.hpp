@@ -1,68 +1,79 @@
-#ifndef __GDW_LOGGER_HPP__
-#define __GDW_LOGGER_HPP__
+#ifndef __UTILS_LOGGER_HPP__
+#define __UTILS_LOGGER_HPP__
 
-#include <ctime>
-#include <fstream>
-#include <iostream>
 #include <string>
+#include <fstream>
 #include <sstream>
+#include <iostream>
 
 namespace utils {
     enum log_level {
-        info, debug, warning, error, fatal
+        LOG_INFO,
+        LOG_DEBUG,
+        LOG_WARNING,
+        LOG_ERROR,
+        LOG_FATAL
     };
-}
 
-namespace utils {
     class logger {
     public:
-        logger(std::string file = "log", log_level filter = fatal, bool trunc = false) noexcept;
+        logger();
         ~logger();
 
-        logger(const logger& other) = delete;
-        logger& operator=(const logger& other) = delete;
+        logger(const logger& rhs) = delete;
+        logger& operator=(const logger& rhs) = delete;
 
-        logger(logger&& other) = delete;
-        logger& operator=(logger&& other) = delete;
+        logger(logger&& rhs) = delete;
+        logger& operator=(logger&& rhs) = delete;
 
-        auto filter() const noexcept {
-            return filter_;
-        }
-
-        void filter(log_level filter) noexcept {
-            filter_ = filter;
-        }
+        std::string format_time(const std::string& format);
 
         logger& operator()(log_level level) noexcept;
-        logger& operator<<(std::ostream& (*os_fun)(std::ostream&));
+        logger& operator<<(std::ostream& (*ostream_function)(std::ostream&));
 
         template <typename type>
-        logger& operator<<(const type& object) {
-            std::stringstream stream;
-            if (filter_ >= current_level_) {
-                if (new_line_) {
-                    new_line_ = false;
-                    print_time(stream);
-                    print_level(stream);
+        logger& operator<<(const type& rhs) {
+            std::stringstream ss;
+            
+            if (new_line_) {
+                ss << format_time("[%Y-%m-%d %X]");
+
+                switch(level_) {
+                    case LOG_INFO:
+                        ss << "[INFO] ";
+                        break;
+                    case LOG_DEBUG:
+                        ss << "[DEBUG] ";
+                        break;
+                    case LOG_WARNING:
+                        ss << "[WARN] ";
+                        break;
+                    case LOG_ERROR:
+                        ss << "[ERROR] ";
+                        break;
+                    case LOG_FATAL:
+                        ss << "[FATAL] ";
+                        break;
                 }
-                stream << object;
-                std::string out = stream.str();
-                std::cout << out;
-                fstream_ << out;
+
+                new_line_ = false;
             }
+
+            ss << rhs;
+
+            os_ << ss.str();
+            std::cout << ss.str();
+
             return *this;
         }
 
     private:
-        void print_time(std::stringstream& stream);
-        void print_level(std::stringstream& stream);
-
-    private:
-        std::ofstream fstream_;
+        std::ofstream os_;
+        log_level level_;
         bool new_line_;
-        log_level current_level_;
-        log_level filter_;
     };
+
+
     extern logger log;
 }
 

@@ -22,7 +22,7 @@ namespace ecs {
 
         virtual void set(base_component* owner, const value_type& value) noexcept {
             if (!setter_) {
-                utils::log(utils::warning) << "property " << this->name_ << " has no setter" << std::endl;
+                utils::log(utils::LOG_WARNING) << "property " << this->name_ << " has no setter" << std::endl;
             }
             (static_cast<owner_type*>(owner)->*setter_)(value);
         }

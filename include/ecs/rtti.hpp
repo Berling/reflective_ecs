@@ -42,7 +42,7 @@ namespace ecs {
         }
 
     private:
-        auto next_id() const noexcept {
+        static auto next_id() noexcept {
             static auto id_geneartor = 0ul;
             return ++id_geneartor;
         }
