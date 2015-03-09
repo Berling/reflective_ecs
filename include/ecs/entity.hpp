@@ -11,7 +11,7 @@
 #include <ecs/rtti.hpp>
 #include <utils/logger.hpp>
 
-namespace ecs {
+namespace core {
     class game;
 }
 
@@ -24,7 +24,7 @@ namespace ecs {
         }
 
     public:
-        entity(game& game, glm::vec3 position, glm::quat rotation, glm::vec3 scale) noexcept;
+        entity(core::game& game, glm::vec3 position, glm::quat rotation, glm::vec3 scale) noexcept;
         ~entity() = default;
 
         entity(const entity& rhs) = delete;
@@ -116,6 +116,14 @@ namespace ecs {
             }
         }
 
+        static rtti* type_info(const std::string& name) {
+            auto it = components_rtti().find(name);
+            if (it != components_rtti().end()) {
+                return it->second;
+            }
+            return nullptr;
+        }
+
     private:
         auto next_id() const noexcept {
             static auto id_geneartor = 0ul;
@@ -124,7 +132,7 @@ namespace ecs {
 
 
     private:
-        game& game_;
+        core::game& game_;
         unsigned long id_;
         std::unordered_map<unsigned long, std::unique_ptr<base_component>> components_;
 

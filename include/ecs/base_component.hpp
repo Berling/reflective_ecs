@@ -2,14 +2,17 @@
 #define __GDW_BASE_COMPONENT_HPP__
 
 namespace ecs {
-    class game;
     class entity;
+}
+
+namespace core {
+    class game;
 }
 
 namespace ecs {
     class base_component {
     public:
-        base_component(game& game, entity& owner) noexcept;
+        base_component(core::game& game, entity& owner) noexcept;
         virtual ~base_component() = 0;
         
         base_component(const base_component& rhs) = delete;
@@ -23,7 +26,7 @@ namespace ecs {
         }
 
     protected:
-        game& game_;
+        core::game& game_;
         entity& owner_;
     };
 }

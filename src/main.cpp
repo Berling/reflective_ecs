@@ -6,20 +6,15 @@
 #include <ecs/entity_manager.hpp>
 #include <ecs/property_type.hpp>
 #include <ecs/rtti.hpp>
+#include <core/game.hpp>
 #include <utils/logger.hpp>
 
 using namespace ecs;
 using namespace utils;
 
-namespace ecs {
-    class game {
-
-    };
-}
-
 class test_component : public component<test_component> {
 public:
-    test_component(game& game, entity& owner) noexcept
+    test_component(core::game& game, entity& owner) noexcept
     : component{game, owner}, value_{1.f} {}
 
     auto test_value() const noexcept {
@@ -38,6 +33,7 @@ private:
 };
 
 int main(int argc, char const* argv[]) {
+    core::game g;
     entity::register_type<test_component>();
     utils::log(LOG_WARNING) << test_component::type_info().type_name() << std::endl;
     utils::log(LOG_WARNING) << property_type<float>::type_id() << std::endl;

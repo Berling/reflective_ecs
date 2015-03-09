@@ -8,6 +8,9 @@
 
 namespace ecs {
     class entity;
+}
+
+namespace core {
     class game;
 }
 
@@ -15,7 +18,7 @@ namespace ecs {
     template <typename component_type>
     class component : public base_component {
     public:
-        component(game& game, entity& owner) noexcept
+        component(core::game& game, entity& owner) noexcept
         : base_component{game, owner} {}
         ~component() = 0;
 
@@ -42,7 +45,7 @@ namespace ecs {
         }
 
     private:
-        static auto create(game& game, entity& owner) {
+        static auto create(core::game& game, entity& owner) {
             return std::move(std::make_unique<component_type>(game, owner));
         }
 

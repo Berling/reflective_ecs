@@ -2,11 +2,10 @@
 #include <utils/logger.hpp>
 
 namespace ecs {
-    entity_manager::entity_manager(game& game) noexcept
+    entity_manager::entity_manager(core::game& game) noexcept
     : game_{game} {}
 
-    entity& entity_manager::emplace(const glm::vec3& position, const glm::quat& rotation,
-    const glm::vec3& scalation) {
+    entity& entity_manager::emplace(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scalation) {
         auto entity_ptr = std::make_unique<entity>(game_, position, rotation, scalation);
         entities_.insert(std::make_pair(entity_ptr->id(), std::move(entity_ptr)));
         return *entity_ptr;

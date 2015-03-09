@@ -4,7 +4,7 @@
 #include <ecs/entity.hpp>
 
 namespace ecs {
-    entity::entity(game& game, glm::vec3 position, glm::quat rotation, glm::vec3 scale) noexcept
+    entity::entity(core::game& game, glm::vec3 position, glm::quat rotation, glm::vec3 scale) noexcept
     : game_{game}, id_{next_id()}, position_{position}, rotation_{rotation}, scale_{scale} {}
 
     glm::mat4 entity::transform() const {

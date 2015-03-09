@@ -7,14 +7,14 @@
 
 #include <ecs/entity.hpp>
 
-namespace ecs {
+namespace core {
     class game;
 }
 
 namespace ecs {
     class entity_manager {
     public:
-        entity_manager(game& game) noexcept;
+        entity_manager(core::game& game) noexcept;
         ~entity_manager() = default;
 
         entity_manager(const entity_manager& rhs) = delete;
@@ -29,7 +29,7 @@ namespace ecs {
         entity* resolve(unsigned long id);
 
     private:
-        game& game_;
+        core::game& game_;
         std::unordered_map<unsigned long, std::unique_ptr<entity>> entities_;
         std::queue<unsigned long> deletions_;
     };

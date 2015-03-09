@@ -24,7 +24,10 @@ namespace ecs {
         virtual void set(base_component* owner, const value_type& value) noexcept = 0;
 
     private:
-        virtual void init(base_component* owner, const value_type& value) noexcept = 0;
+        virtual void init(base_component* owner, const value_type& value) const noexcept = 0;
+
+        template <typename type>
+        friend class typed_value;
     };
 }
 

@@ -10,13 +10,16 @@
 namespace ecs {
     class base_component;
     class entity;
+}
+
+namespace core {
     class game;
 }
 
 namespace ecs {
     class rtti {
     public:
-        using factory = std::unique_ptr<base_component> (*)(game& game, entity& owner);
+        using factory = std::unique_ptr<base_component> (*)(core::game& game, entity& owner);
         using reflection = void (*)();
         using property_list = std::vector<std::unique_ptr<abstract_property>>;
 
@@ -55,6 +58,7 @@ namespace ecs {
         property_list properties_;
 
         friend class entity;
+        friend class entity_template_manager;
     };
 }
 

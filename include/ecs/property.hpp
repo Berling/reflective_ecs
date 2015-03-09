@@ -28,7 +28,7 @@ namespace ecs {
         }
 
     private:
-        virtual void init(base_component* owner, const value_type& value) noexcept {
+        virtual void init(base_component* owner, const value_type& value) const noexcept {
             (static_cast<owner_type*>(owner))->*value_ = value;
         }
 
