@@ -38,7 +38,7 @@ namespace ecs {
         }
     }
 
-    void entity_manager::clear() {
+    void entity_manager::clean_up() {
         while (!deletions_.empty()) {
             auto kill = deletions_.front();
             auto entity = entities_.find(kill);
@@ -49,6 +49,10 @@ namespace ecs {
             }
             deletions_.pop();
         }
+    }
+
+    void entity_manager::clear() {
+        entities_.clear();
     }
 
     entity* entity_manager::resolve(unsigned long id) {

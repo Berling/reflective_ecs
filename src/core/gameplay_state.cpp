@@ -14,9 +14,6 @@ namespace core {
 
     void gameplay_state::enter() {
         entity_manager_.load_startup("entity/gameplay.startup");
-        for (auto i = 1; i < 8; ++i) {
-            utils::log << entity_manager_.resolve(i)->id() << std::endl;
-        }
     }
 
     void gameplay_state::leave() {

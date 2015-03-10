@@ -27,6 +27,7 @@ namespace ecs {
         entity& emplace(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale = glm::vec3{1.f});
         entity& emplace(const std::string& name, const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale = glm::vec3{1.f});
         void erase(unsigned long id);
+        void clean_up();
         void clear();
         entity* resolve(unsigned long id);
         void load_startup(const std::string& name);
