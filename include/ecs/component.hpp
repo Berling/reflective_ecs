@@ -39,8 +39,8 @@ namespace ecs {
         template <typename property_type>
         static void register_property(const std::string& name,
             typename property<component_type, property_type>::value value,
-            typename property<component_type, property_type>::getter_type getter,
-            typename property<component_type, property_type>::setter_type setter) {
+            typename property<component_type, property_type>::getter_type getter = nullptr,
+            typename property<component_type, property_type>::setter_type setter = nullptr) {
             type_info().emplace_property(std::make_unique<property<component_type, property_type>>(name, value, getter, setter));
         }
 

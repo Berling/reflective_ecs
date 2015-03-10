@@ -22,7 +22,7 @@ public:
 
 private:
     static void register_reflection() {
-        register_property<float>("test_value", &test_component::value_, &test_component::test_value, nullptr);
+        register_property<float>("test_value", &test_component::value_);
     }
 
 private:
