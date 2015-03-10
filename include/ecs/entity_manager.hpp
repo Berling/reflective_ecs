@@ -29,6 +29,7 @@ namespace ecs {
         void erase(unsigned long id);
         void clear();
         entity* resolve(unsigned long id);
+        void load_startup(const std::string& name);
 
     private:
         core::game& game_;

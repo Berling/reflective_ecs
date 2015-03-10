@@ -284,7 +284,7 @@ namespace ecs {
             }
             vec[i - 1] = elem.asFloat();
         }
-        glm::quat quat(vec[0], glm::vec3{vec[1], vec[2], vec[3]});
+        glm::quat quat = glm::angleAxis(vec[0], glm::vec3{vec[1], vec[2], vec[3]});
         return std::unique_ptr<abstract_value>(new typed_value<glm::quat>{*static_cast<typed_property<glm::quat>*>(property), glm::normalize(quat)});
     }
 

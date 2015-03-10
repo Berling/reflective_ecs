@@ -32,6 +32,7 @@ private:
 };
 
 int main(int argc, char const* argv[]) {
+    entity::register_type<test_component>();
     core::game g;
     return 0;
 }

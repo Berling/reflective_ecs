@@ -1,4 +1,8 @@
+#include <glm/gtx/string_cast.hpp>
+#include <json/json.h>
+
 #include <ecs/entity_manager.hpp>
+#include <core/game.hpp>
 #include <utils/logger.hpp>
 
 namespace ecs {
@@ -53,5 +57,61 @@ namespace ecs {
             return entity->second.get();
         }
         return nullptr;
+    }
+
+    void entity_manager::load_startup(const std::string& name) {
+        auto asset = game_.asset_manager().load(name);
+        if (!asset) {
+            utils::log(utils::LOG_ERROR) << "could not load startup file " << name << std::endl;
+            return;
+        }
+        static Json::Reader reader;
+        Json::Value root;
+        if (!reader.parse(&(*asset->content().begin()), &(*asset->content().end()), root)) {
+            utils::log(utils::LOG_ERROR) << "could not parse " << name << " " << reader.getFormattedErrorMessages() << std::endl;
+            return;
+        }
+        auto insert = root["insert"];
+        if (insert.isNull()) {
+            utils::log(utils::LOG_ERROR) << "no insertion specified" << std::endl;
+            return;
+        }
+        for (auto& v : insert) {
+            auto entity = v["entity"];
+            if (entity.isNull()) {
+                utils::log(utils::LOG_ERROR) << "no entity template specified" << std::endl;
+            }
+            auto position = v["position"];
+            auto pos = glm::vec3{1.f};
+            if (position.isNull()) {
+                utils::log(utils::LOG_WARNING) << "no position specified for entity " << entity << std::endl;
+            } else {
+                for (auto i = 0; i < 3; ++i) {
+                    pos[i] = position[i].asFloat();
+                }
+            }
+            auto rotation = v["rotation"];
+            auto rot = glm::angleAxis(0.f, glm::vec3{0.f});
+            if (rotation.isNull()) {
+                utils::log(utils::LOG_WARNING) << "no rotation specified for entity " << entity << std::endl;
+            } else {
+                auto angle = rotation[0].asFloat();
+                auto axis = glm::vec3{0.f};
+                for (auto i = 1; i < 4; ++i) {
+                    axis[i - 1] = rotation[i].asFloat();
+                }
+                rot = glm::angleAxis(angle, axis);
+            }
+            auto scale = v["scale"];
+            auto scl = glm::vec3{1.f};
+            if (scale.isNull()) {
+                utils::log(utils::LOG_WARNING) << "no scale specified for entity " << entity << std::endl;
+            } else {
+                for (auto i = 0; i < 3; ++i) {
+                    scl[i] = scale[i].asFloat();
+                }
+            }
+            emplace(entity.asString(), pos, rot, scl);
+        }
     }
 }
